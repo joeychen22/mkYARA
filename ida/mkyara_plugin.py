@@ -34,20 +34,19 @@ def get_selection():
     return start, end
 
 
-def get_inf_structure_bitness():
+def get_inf_structure_bitness(info):
     bits = 16
-    if idaapi.inf_is_64bit():
+    if info.is_64bit():
         bits = 64
-    elif idaapi.inf_is_16bit():
-        bits = 16
-    else:
+    elif info.is_32bit():
         bits = 32
     return bits
 
 
 def get_arch_info():
-    proc = idaapi.inf_get_procname().lower()
-    bits = get_inf_structure_bitness()
+    info = idaapi.get_inf_structure()
+    proc = info.procName.lower()
+    bits = get_inf_structure_bitness(info)
     instruction_set = None
     instruction_mode = None
 
